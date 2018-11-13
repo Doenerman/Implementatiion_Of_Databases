@@ -1,0 +1,90 @@
+\begin{exercise}{10} 
+\begin{subexercise}
+  Assume the data base schema like in exercise number 2.1
+  \begin{enumerate}
+    \item relational algebra can not express recursive queries
+      \begin{displaymath}
+        \begin{array}{l l}
+          \text{\texttt{SELECT}} &employee.name \\
+          \text{\texttt{FROM}}& employee, \,\, certified\\
+          \text{\texttt{WHERE}}&(\text{\texttt{SELECT COUNT}}\,\,(*) \,\,
+          \text{\texttt{FROM}}\,\, employee) > (\text{\texttt{SELECT COUNT}}\,\,(*) \,\,
+          \text{\texttt{FROM}}\,\, certified)
+        \end{array}
+      \end{displaymath}
+    \item agrigate functions like \texttt{COUNT}
+      \begin{displaymath}
+        \begin{array}{l}
+          \text{\texttt{SELECT}} \,\, \text{\texttt{COUNT}}\,\,(name)\\
+          \text{\texttt{FROM}}\,\, employee\\
+        \end{array}
+      \end{displaymath}
+  \end{enumerate}
+\end{subexercise}
+
+\begin{subexercise}
+  In TRC variables denote tuples and the attributes of the tuples can be
+  accessed by the variables while in DRC the variables denote the attributes and
+  the must be constructed by using positional notations. Positional notations
+  mean that if a variable has the i-th position in the variable assignment in
+  the relation, it is matched to the i-th attribute of the relation. So where TRC selects
+  complete objects, DRC selects variables.
+\end{subexercise}
+
+\begin{subexercise}
+  A querey language $l$ is \emph{relational complete} if and only if for each
+  operation ($\pi, \sigma, \bowtie, \bigcup, \rho, \rho_{ \leftarrow}$) exists a
+  language intern operation that leads to the same result as in \emph{relational
+  algebra}.
+  
+  \begin{itemize}
+    \item $\pi_{column}(TABLE)$:
+          \begin{displaymath}
+            \begin{array}{l l}
+              \text{\texttt{SELECT}} \,\,column & \text{\texttt{FROM }} TABLE
+            \end{array}
+          \end{displaymath}
+    \item $\sigma_{attribute=value}(TABLE)$:
+          \begin{displaymath}
+            \begin{array}{l l}
+              \text{\texttt{SELECT}}\,\, * & \text{\texttt{FROM }} TABLE\,\,t\\
+              \text{\texttt{WHERE}} & t.attribute = value
+            \end{array}
+          \end{displaymath}
+    \item $T_1\,\text{x}\,T_2$:
+          \begin{displaymath}
+            \begin{array}{l}
+              \text{\texttt{SELECT}}\,\, * \\
+              \text{\texttt{FROM }}\,\, T_1, T_2\\
+            \end{array}
+          \end{displaymath}
+
+    \item $T_1 \bigcup T_2$:
+          \begin{displaymath}
+            \begin{array}{l}
+              \text{\texttt{SELECT}}\,\, * \,\, \text{\texttt{FROM}}\,\, T_1\\
+              \text{\texttt{UNION SELECT}}\,\,*\,\,\text{\texttt{FROM}}\,\,T_2
+            \end{array}
+          \end{displaymath}
+    \item $T_1 - T_2$:
+          \begin{displaymath}
+            \begin{array}{l}
+              \text{\texttt{SELECT}}\,\, * \,\, \text{\texttt{FROM}}\,\, T_1\\
+              \text{\texttt{MINUS}}\\
+              \text{\texttt{SELECT}}\,\,*\,\,\text{\texttt{FROM}}\,\,T_2
+            \end{array}
+          \end{displaymath}
+  \end{itemize}
+  
+\end{subexercise}
+
+\begin{subexercise}
+  Consider the querey $\{e | \neg ( e \in employee)\}$. The querey is syntatically correct.
+  However, it asks for all tuplse $e$ such that $e$ is not in (the given
+  instance of) employees. THe set of such $e$ tuplse is bovioulsy infinte, in
+  the context of infinite domains such as the set of all integers. This simple
+  example illustrates an \emph{unsafe} query. So unsafe queries can lead to an
+  infinite answer which is not desireable for the obvious reasons.
+\end{subexercise}
+
+\end{exercise}

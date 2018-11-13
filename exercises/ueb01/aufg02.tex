@@ -1,0 +1,108 @@
+\begin{exercise}{16}
+  \begin{subexercise}
+    \begin{itemize}
+      \item SQL: 
+            \begin{displaymath}
+              \begin{array}{l l}
+                \text{\texttt{SELECT}}& \text{c.FirsttName \texttt{AND} c.LastName
+                      \texttt{FROM} Customer c}\\
+                \text{\texttt{WHERE}}& \text{c.city \texttt{IN} }\\
+                                     & \text{SELECT e.city \texttt{FROM} Employee e }\\
+                                     & \text{\texttt{WHERE} e.ReportsTo = e.EmployeeId}
+              \end{array}
+            \end{displaymath}
+
+      \item relation algebra:
+        \begin{displaymath}
+          \pi_{name}(Costumer \bowtie_{costomer.city =
+          emp.city}\rho_{emp}(\sigma_{ReportsTo = EmployeeId}(Employee)
+        \end{displaymath}
+    \end{itemize}
+  \end{subexercise}
+  \begin{subexercise}
+    \begin{itemize}
+      \item SQL:
+            \begin{displaymath}
+              \begin{array}{l l}
+                \text{\texttt{SELECT}}& \text{c.country \texttt{FROM} Customer c}\\
+                \text{\texttt{WHERE}}& \text{c.SupportRepId \texttt{IN}}\\
+                                    & \text{\texttt{SELECT} e.EmployeeId
+                                    \texttt{FROM} Employee e}\\
+                                    & \text{\texttt{WHERE TIMESTAMPDIFF}(year,
+                                    e.HireDate, e.BirthDate) < 35}
+              \end{array}
+            \end{displaymath}
+      \item relation algebra:
+        \begin{displaymath}
+          \begin{array}{l}
+            \pi_{FirstName, LastName}(Costomer \bowtie_{costerm.SupportRepId =
+            b.EmployeeId} \\
+            \rho_{b}(\sigma_{\text{\texttt{DATEDIFF}(year, HireDate,
+            BirthDate)} < 35}(Employee)))
+          \end{array}
+        \end{displaymath}
+    \end{itemize}
+  \end{subexercise}
+  \begin{subexercise}
+    \begin{itemize}
+      \item SQL:
+            \begin{displaymath}
+              \begin{array}{l l}
+                \text{\texttt{SELECT}}& \text{b \texttt{FROM} Employee b
+                                        \texttt{JOIN} Employee e}\\
+                \text{\texttt{WHERE}}& \text{b.ReportsTo = b.EmployeeId
+                                      \texttt{AND} b.EmployeeId = e.ReportsTo} \\
+                \text{\texttt{HAVING}} & \text{e.EmployeeId \texttt{IN}} \\
+                                    &(\text{\texttt{SELECT} c.SupportRepID \texttt{FROM} Costomer c} \\
+                                    & \text{\texttt{WHERE} c.country = 'Brazil')}
+              \end{array}
+            \end{displaymath}
+      \item relation algebra:
+        \begin{displaymath}
+          \begin{array}{l}
+            \rho_{boss}(\sigma_{ReportsTo=EmployeeId}(Employee))
+            \bowtie_{boss.EmployeeId=e.ReportsTo} \\
+
+            \rho_{e}(Employee \bowtie_{employee.employeeId = br.SupportRepId}\\
+            \rho_{br}(\pi_{SupportRepId}(\sigma_{country='brazil'}(Customer))))
+          \end{array}
+        \end{displaymath}
+    \end{itemize}
+  \end{subexercise}
+  \begin{subexercise}
+    \begin{itemize}
+      \item SQL:
+        \begin{displaymath}
+          \begin{array}{l l}
+            \text{\texttt{SELECT}}& \text{at \texttt{FROM} Artists at}\\
+            \text{\texttt{WHERE}} & \text{at.ArtistId \texttt{NOT IN}}\\
+                                  & (\text{\texttt{SELECT} al.ArtistId \texttt{FROM} Album al}\\
+                                  & \text{\texttt{GROUP BY} ArtistId}) \\
+          \end{array}
+        \end{displaymath}
+      \item relation algebra:
+        \begin{displaymath}
+          \begin{array} {l}
+            Artist - \pi_{artist.ArtistId,artist.Name}(Artist\bowtie_{artist.ArtistId = album.artistId} Album)
+          \end{array}
+        \end{displaymath}
+    \end{itemize}
+  \end{subexercise}
+  \begin{subexercise}
+    \begin{itemize}
+      \item SQL:
+        \begin{displaymath}
+          \begin{array}{l l}
+            \text{\texttt{SELECT}}& \text{* \texttt{FROM} Track t}\\
+            \text{\texttt{WHERE}} & \text{t.TrackId \texttt{IN}}\\
+                                  & (\text{\texttt{SELECT} TrackId, SUM(Qunatity) AS sum}\\
+                                  & \text{\texttt{FROM} InvoiceLine} \\
+                                  & \text{\texttt{GROUP BY} TrackId}\\
+                                  & \text{\texttt{ORDER BY} (SUM) Desc}\\
+                                  & \text{limit 5)}
+
+          \end{array}
+        \end{displaymath}
+    \end{itemize}
+  \end{subexercise}
+\end{exercise}

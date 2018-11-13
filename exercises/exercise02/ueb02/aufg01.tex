@@ -1,0 +1,98 @@
+\begin{exercise}{8}
+
+\begin{subexercise}
+  \begin{itemize}
+  \item TRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ <e.name> | & \\
+            & e\in employee \land \exists c \in certified \land \exists a \in arcraft \\
+            & e.emp\_id = c.emp\_id \land c.aircraft\_id = a.aircraft\_id \\
+            & a.manufacturer = \text{'}Boing\text{'} \}
+      \end{array}
+    \end{displaymath}
+  \item DRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ names | & \\
+              & \exists emp\_id, name, salary, aircraft\_id, manufacturer, model, range \\
+              & employee(emp\_id, name, salary) \land certified(emp\_id, aircraft\_id) \land  \\
+              & aircraft( aircraft\_id, manufacturerer, model, range) \land \\
+              & manufactuer = \text{'}Boing\text{'} \}
+               
+      \end{array}
+    \end{displaymath}
+  \end{itemize}
+\end{subexercise}
+
+\begin{subexercise}
+  \begin{itemize}
+  \item TRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ < a.aircraft\_id > | & a \in aircraft \land \exists f \in flights \\
+                                & \land f.from=\text{'}Vancouver\text{'} \land
+                                  f.to=\text{'}Tokyo\text{'} \\
+                                & \land f.distance < a.range \}
+      \end{array}
+    \end{displaymath}
+  \item DRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ aircraft\_id | &\exists aircraft\_id, manufactur, model, range, \\
+                          & flight\_no, from, to, distance, dpeart\_time, araiaval\_time \\
+                          & aircraft(aircraft\_id, manufactorer, model, range) \\
+                          & \land flights(flight\_no, from, to, distance,
+                          depart\_time, arrival\_time ) \\
+                          & \land range > distance \land
+                          from=\text{'}Vancouver\text{'} \land
+                          to=\text{'}Tokyo\text{'}\}
+      \end{array}
+    \end{displaymath}
+  \end{itemize}
+\end{subexercise}
+
+\begin{subexercise}
+  \begin{itemize}
+  \item TRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ < e.name > |   & e\in employee \,\, \neg (\exists a \in aircraft\,\, a.range \leq3000
+                            \lor a.manufactuer=\text{'}Boeing\text{'})\\
+                          & \land \,\,\exists c \in certified \,\,
+                          c.aircraft\_id=a.aircraft\_id \land c.emp\_id =e.emp\_id \}
+      \end{array}
+    \end{displaymath}
+  \item DRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+      \{ name | &\exists emp\_id, name, salary, aircraft\_id, model, manufacturer, range \\
+                & employee(emp\_id, name, salary) \land certified(emp\_id, aircraft\_id) \\
+                & \neg ( range \leq 3000 \lor manufacturer=\text{'}Boeing\text{'}) )\\
+      \end{array}
+    \end{displaymath}
+  \end{itemize}
+\end{subexercise}
+
+\begin{subexercise}
+  \begin{itemize}
+  \item TRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ <e_1.empl\_id> | & \\
+            & e_1\in employee \,\,\,\neg( \exists e_2 \in employee ( e_1.salary < e_2.salary ) ) \}
+      \end{array}
+    \end{displaymath}
+  \item DRC:
+    \begin{displaymath}
+      \begin{array}{l l}
+        \{ emp\_id_1 | & \\
+            & \exists emp\_id_1, name_1, salary_1\,\, employee(emp\_id_1, name_1, salary_1)  \\ 
+            & ( \forall emp\_id_2, name_2, salary_2\,\, employee(emp\_id_2, name_2,salary_2) \\
+            &\land salary_1 \geq salary_2 ) \}
+      \end{array}
+    \end{displaymath}
+  \end{itemize}
+\end{subexercise}
+
+\end{exercise}

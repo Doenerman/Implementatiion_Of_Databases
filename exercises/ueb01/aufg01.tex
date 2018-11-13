@@ -1,0 +1,50 @@
+\begin{exercise}{14}
+  \begin{subexercise}
+    \begin{enumerate}
+      \item \textbf{Memory assignment structures} layer is used for managing files and external memories. The layer connects to physical volume (external storage) with a Device Interface. The addressing unit of device interface can be tracks, cylinders and channels. It also connects to page assignment layer by file interface, which have the addressing units of blocks and files. Some auxiliary structures are VTOC, extent tables, system catalogue.
+
+      \item \textbf{Page assignment layer} is used for managing buffer and segments for example fix page or unfix page. The layer connects with Storage Structure layer with a system buffer interface. The addressing units of this interface are pages and segments. The auxiliary structures for this layer are page and block tables.
+      
+      \item The main task of \textbf{storage structure layer} is managing records and indexes like storing records, and it connects with logical access structures layer with internal record interface. The addressing units of the interface are records, B*tree s, hash tables, etc. Some auxiliary structures are DBTT, FPA, page indexes, address tables, etc.
+
+      \item \textbf{Logical access structures} layer performs tasks like managing cursor, sorting components and dictionary. The layer connects with logical data structures layer with an interface called record oriented, having records, sets, keys and access paths as addressing unit. Some auxiliary structures to mention are access path data and internal schema description. 
+
+      \item \textbf{Logical data structures} translate and optimize queries, and connects to transaction programs with a set-oriented interface (like SQL), having relations, views and tuples as addressing units. Some auxiliary structures to mention are external schema description and integrity rules.
+
+    \end{enumerate}
+  \end{subexercise}
+  \begin{subexercise}
+    \centering
+    \begin{tabular} { l | l }
+      view formulation and managment & Logical Data Structures \\ \hline
+      logical relation and curser managment & Logical Access Structure\\ \hline
+      access path managment & Storage Structures\\ \hline
+      buffering & Page Assignment\\ \hline
+      media access & Memory Assignment Structures\\ \hline
+      
+    \end{tabular}
+  \end{subexercise}
+  \begin{subexercise}
+    \begin{enumerate}
+      \item Data indepencency consists of two aspects. One aspect is that the
+            data can be used and thus read by multiple applications, which means
+            that access is not limited to the application used.
+            Another aspect of data indepenency is the possiblility of managing
+            the data base itself. The data should be structured in a way such
+            that no special application is required not only to get information
+            from the data base but also edit data within.
+      \item It is an important feature beacause this give on the one hand this
+            make the data available to more users, since no specific application
+            is requiered.
+            The stricter requierements to the manipulation process allow
+            different architectures to be implemented.
+      \item The data manipulation of a DBMS is part of the lower three layer.
+            These layer not only manipulate the concrete data on the physical
+            storage but also update the database internal structures.
+            The availability of a database for several applications is
+            implemented in the hightest layer. The first layer requests a well
+            defined formula.
+    \end{enumerate}
+  \end{subexercise}
+
+\end{exercise}
