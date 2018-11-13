@@ -1,3 +1,25 @@
-\begin{exercise}{0}
+\begin{exercise}{6}
 
+\begin{subexercise}
+  \begin{displaymath}
+    \begin{array}{l l}
+      \{ e.EmployeeId, e.LastName | & e \in employee \land c \in costomer \land\\
+              & \text{\texttt{COUNT}}( c.City = e.City \land e.EmployeeId =
+              c.SupportRepId ) > 1 \}
+    \end{array}
+  \end{displaymath}
+\end{subexercise}
+
+\begin{subexercise}
+  \begin{displaymath}
+    \begin{array}{l l}
+      \{ t.Name, t.composer | &t \in track \land  g\in genre \land al\in album
+      \land at \in artist \land \\
+            & t.AlbumId = al.AlbumId \land al.ArtistId = at.ArtistId \land
+                t.composer = at.Name \land \\
+            & t.GenreId = g.GenreId \land g.Name = \text{'}Rock\text{'}
+        \}
+    \end{array}
+  \end{displaymath}
+\end{subexercise}
 \end{exercise}
