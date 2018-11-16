@@ -1,3 +1,76 @@
-\begin{exercise}{0}
+\begin{exercise}{5}
+
+\begin{subexercise}
+  \begin{itemize} \item $T_2\subseteq T_1$?:
+    \begin{displaymath}
+      \begin{array}{l l c l l}
+        f(b4) = & b3 & \rightarrow & (b4,a2) \in T_2 & (f(b4), a2)=(b3,a2)\in T_1\\
+        f(b1) = & b3 & \rightarrow & (b1,a2) \in T_2 & (f(b1), a2)=(b3,a2)\in T_1\\
+        f(b4) = & b3 & \rightarrow & (a1,b3) \in T_2 & (a1, f(b4))=(a1,b3)\in T_1\\
+        f(b2) = & 5 & & & \\
+        f(b4) = & b3 & \rightarrow & (b2, b4) \in T_2 & (f(b2), f(b4))=(5,b3) \in T_1\\
+        f(b2) = & 5 & & & \\
+        f(b1) = & b3& \rightarrow & (b2, b1) \in T_2 & (f(b2), f(b1))=(5,b3) \in T_1 \\
+        f(b4) = & b3 & & & \\
+        f(b2) = & 5 &\rightarrow & (b3, f(b2)) = (b3,5) \in T_2 &
+        (f(b4),5)=(b3,5)\in T_1
+      \end{array}
+    \end{displaymath}
+    \item $T_3\subseteq T_2$?:
+    \begin{displaymath}
+      \begin{array}{ l l c l l }
+        f(b3) = & b4 & \rightarrow & (b3,a2)\in T_3 & (f(b3),a2) = (b4,a2)\in T_2 \\
+
+        f(a1) = &b1 & & & \\
+        f(b2) = & a2 & \rightarrow & (a1,b2)\in T_3 & (f(a1),f(b2)) = (b1,a2) \in
+        T_2 \\
+
+        f(b4) = & b2 & & & \\
+        f(b2) = & a2 & \rightarrow & (b4,b1)\in T_3 & (f(b4),b1) = (b2,b1) \in T_2
+        \\
+
+        f(b1) = & b3 & & & \\
+        f(b2) = & a2 & \rightarrow & (b1,b2)\in T_3 & (f(b1),b2) = (b3,b2)\in
+        T_2 \\
+
+        f(b1) = & b3 & & & \\
+        f(b2) = & a2 & \rightarrow & (b1,b2) \in T_3 & (f(b1),b2) = (b3,b2)\in
+        T_2 \\
+
+        f(b2) = & a2 & & & \\
+        f(a2) = & a1 & \rightarrow & (b2,b3)\in T_3 & (f(b2),b3) = (f(a2),b3) =
+        (a1,b3) \in T_2\\
+
+        f(b3) = & b4 & & & \\
+        f(b4) = & b2 & & & \\
+        f(b2) = & a2 & \rightarrow (b1,b3) & \in T_3 & (b1,f(b3)) = (b1,f(b2)) =
+        (b1,a2) \in T_2
+      \end{array}
+    \end{displaymath}
+    \item $T_1\subseteq T_3$?:
+    \begin{displaymath}
+      \begin{array}{ l l c l l }
+        & & & (b3,a2)\in T_1 & (b3,a2)\in T_3\\
+        f(b4) = & b2 & \rightarrow &(a1,b4) \in T_1 & (a1, f(b4)) = (a1, b2)\in
+        T_3 \\
+
+        f(b2)= & 5 & \rightarrow &(5,b3) \in T_1 & (b2,b3)\in T_3, (f(b2),b3) =
+        (5,b3)\\
+
+        f(b4) =& b2 & & & \\
+        f(b2) =& 5 & & & \\
+        f(b1) =& 5 & & & \\
+        f(b3) =& 5 & \rightarrow & (b4,5)\in T_1 & (f(b4),5) = (f(b2),f(b3))\\
+        & & & & =(5,f(b3)) = (f(b1),f(b3)), (b1,b3)\in T_3
+      \end{array}
+    \end{displaymath}
+  \end{itemize}
+  Since we proved that $T_1\subseteq T_3 \subseteq T_2 \subseteq T_1 \subseteq
+  T_3$ we also proved that $T_i \equiv T_j$ for $i\neq j,i,j\in\{1,2,3\}$.
+\end{subexercise}
+
+\begin{subexercise}
+\end{subexercise}
+
 
 \end{exercise}
