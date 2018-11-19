@@ -1,3 +1,53 @@
-\begin{exercise}{0}
+\begin{exercise}{15}
+
+\begin{subexercise}
+In the following we consider only to ways to join the three relations.
+\begin{itemize}
+  \item $(R \bowtie S) \bowtie T$
+  \item $R \bowtie (S \bowtie T)$
+\end{itemize}
+\end{subexercise}
+
+\begin{subexercise}
+  \begin{enumerate}
+    \item
+    \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+     \node (q0)   {$\pi_{P.pname}$};
+     \node (q6) [below of=q0] {$\bowtie_{sid = sid }$};
+     \node (h0) [right of=q6] {};
+     \node (h1) [left of=q6] {};
+     \node (q7) [below of=h0] {$\pi_{sid}$};
+     \node (q4) [below of=h1] {$\bowtie_{S.pid = P.pid}$};
+     \node (q5) [below left of=q4] {$\pi_{pid,pname}$};
+     \node (q2) [below left of=q5] {$\sigma_{price \leq 200}$};
+     \node[state] [below left of=q2] (e1)   {$P$};
+     \node[transition] (t1) [right of=e1]  {$Parts$};
+     \node (q1) [right of=q5]  {$\sigma_{pid < 800}$};
+     \node[state] [below of=q1] (e0)   {$S$};
+     \node[transition] (t0) [right of=e0]  {$Supply$};
+     \node (h2) [right of=q4] {};
+     \node (q3) [below of=q7] {$\sigma_{city = 'Aachen'}$};
+     \node[state] [below right of=q3] (e2)   {$Y$};
+     \node[transition] (t2) [right of=e2]  {$Suppliers$};
+
+     \path[-]
+        (t2) edge node{} (e2)
+        (e2) edge node{} (q3)
+        (q3) edge node{} (q7)
+        (q7) edge node{} (q6)
+        (q6) edge node{} (q0)
+        (t1) edge node{} (e1)
+        (e1) edge node{} (q2)
+        (q2) edge node{} (q5)
+        (q5) edge node{} (q4)
+        (q4) edge node{} (q6)
+        (t0) edge node{} (e0)
+        (e0) edge node{} (q1)
+        (q1) edge node{} (q4);
+
+
+\end{tikzpicture}
+  \end{enumerate}
+\end{subexercise}
 
 \end{exercise}
