@@ -1,3 +1,106 @@
-\begin{exercise}{0}
+\begin{exercise}{9}
+  
+  \begin{subexercise}
+    \begin{lstlisting}[breaklines=true]
+      \COPY Track TO 'track.csv' WITH (FORMAT CSV, HEADER);
+    \end{lstlisting}
+    \begin{lstlisting}[breaklines=true]
+      \COPY Track TO 'invoiceline.csv' WITH (FORMAT CSV, HEADER);
+    \end{lstlisting}
+
+    Python code to load the csv file into spark as dataframe (full code is given
+    as seperate file)
+    \begin{lstlisting}[breaklines=true]
+    track = spark.read.format("csv").option("header", "true").load("track.csv")
+invoiceline = spark.read.format("csv").option("header", "true").load("invoiceline.csv")
+    \end{lstlisting}
+  \end{subexercise}
+
+  \begin{subexercise}
+    Spark logical and physical plan:
+    \begin{itemize}
+      \item Spark provides 3 types of logical plan:
+        \begin{itemize}
+          \item Parsed logical plan
+          \item Analyzed logical plan
+          \item Optimized logical plan
+        \end{itemize}
+    \end{itemize}
+
+    Parsed Logical Plan
+    \begin{lstlisting}[breaklines=true]
+'Sort ['PurchaseCount DESC NULLS LAST], true
++- 'Aggregate ['t.Name], ['t.Name, 'count('t.Name) AS PurchaseCount#48]
+   +- 'Filter ('t.TrackId = 'i.TrackId)
+      +- 'Join Inner
+         :- 'SubqueryAlias `t`
+         :  +- 'UnresolvedRelation `track_table`
+         +- 'SubqueryAlias `i`
+            +- 'UnresolvedRelation `invoice_table`
+    \end{lstlisting}
+    Analyzed Logical Plan
+    \begin{lstlisting}[breaklines=true]
+Name: string, PurchaseCount: bigint
+Sort [PurchaseCount#48L DESC NULLS LAST], true
++- Aggregate [Name#11], [Name#11, count(Name#11) AS PurchaseCount#48L]
+   +- Filter (TrackId#10 = TrackId#40)
+      +- Join Inner
+         :- SubqueryAlias `t`
+         :  +- SubqueryAlias `track_table`
+         :     +- Relation[TrackId#10,Name#11,AlbumId#12,MediaTypeId#13,GenreId#14,Composer#15,Milliseconds#16,Bytes#17,UnitPrice#18] csv
+         +- SubqueryAlias `i`
+            +- SubqueryAlias `invoice_table`
+               +- Relation[InvoiceLineId#38,InvoiceId#39,TrackId#40,UnitPrice#41,Quantity#42] csv
+    \end{lstlisting}
+
+    Optimized Logical Plan
+    \begin{lstlisting}[breaklines=true]
+    Sort [PurchaseCount#48L DESC NULLS LAST], true
++- Aggregate [Name#11], [Name#11, count(Name#11) AS PurchaseCount#48L]
+   +- Project [Name#11]
+      +- Join Inner, (TrackId#10 = TrackId#40)
+         :- Project [TrackId#10, Name#11]
+         :  +- Filter isnotnull(TrackId#10)
+         :     +- Relation[TrackId#10,Name#11,AlbumId#12,MediaTypeId#13,GenreId#14,Composer#15,Milliseconds#16,Bytes#17,UnitPrice#18] csv
+         +- Project [TrackId#40]
+            +- Filter isnotnull(TrackId#40)
+               +- Relation[InvoiceLineId#38,InvoiceId#39,TrackId#40,UnitPrice#41,Quantity#42] csv
+    \end{lstlisting}
+
+    Physical Plan
+    \begin{lstlisting}[breaklines=true]
+    *(4) Sort [PurchaseCount#48L DESC NULLS LAST], true, 0
++- Exchange rangepartitioning(PurchaseCount#48L DESC NULLS LAST, 200)
+   +- *(3) HashAggregate(keys=[Name#11], functions=[count(Name#11)], output=[Name#11, PurchaseCount#48L])
+      +- Exchange hashpartitioning(Name#11, 200)
+         +- *(2) HashAggregate(keys=[Name#11], functions=[partial_count(Name#11)], output=[Name#11, count#54L])
+            +- *(2) Project [Name#11]
+               +- *(2) BroadcastHashJoin [TrackId#10], [TrackId#40], Inner, BuildRight
+                  :- *(2) Project [TrackId#10, Name#11]
+                  :  +- *(2) Filter isnotnull(TrackId#10)
+                  :     +- *(2) FileScan csv [TrackId#10,Name#11] Batched: false, Format: CSV, Location: InMemoryFileIndex[file:/home/ghost/Desktop/python_exercises/idb/track.csv], PartitionFilters: [], PushedFilters: [IsNotNull(TrackId)], ReadSchema: struct<TrackId:string,Name:string>
+                  +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, true]))
+                     +- *(1) Project [TrackId#40]
+                        +- *(1) Filter isnotnull(TrackId#40)
+                           +- *(1) FileScan csv [TrackId#40] Batched: false, Format: CSV, Location: InMemoryFileIndex[file:/home/ghost/Desktop/python_exercises/idb/invoiceline.csv], PartitionFilters: [], PushedFilters: [IsNotNull(TrackId)], ReadSchema: struct<TrackId:string>
+    \end{lstlisting}
+
+    Postgresql execution plan
+    \begin{lstlisting}[breaklines=true]
+      Limit  (cost=237.91..237.93 rows=5 width=24)
+   ->  Sort  (cost=237.91..243.51 rows=2240 width=24)
+         Sort Key: (count(t."Name")) DESC
+         ->  HashAggregate  (cost=178.31..200.71 rows=2240 width=24)
+               Group Key: t."Name"
+               ->  Hash Join  (cost=123.82..167.11 rows=2240 width=16)
+                     Hash Cond: (i."TrackId" = t."TrackId")
+                     ->  Seq Scan on "InvoiceLine" i  (cost=0.00..37.40 rows=2240 width=4)
+                     ->  Hash  (cost=80.03..80.03 rows=3503 width=20)
+                           ->  Seq Scan on "Track" t  (cost=0.00..80.03 rows=3503 width=20)
+    \end{lstlisting}
+    \end{subexercise}
+
+  \begin{subexercise}
+  \end{subexercise}
 
 \end{exercise}
