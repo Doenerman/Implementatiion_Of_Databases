@@ -1,3 +1,84 @@
-\begin{exercise}{0}
+\begin{exercise}{6}
+  \begin{subexercise}
+    The analysis starts at the last checkpoint, which has the $LogSequenceNumber=5$. \\
+    The analysis adds all \emph{Begin Transaction} entries to the \emph{TransactionTable}.
+    \\
+    \begin{center}
+      \begin{tabular}{ c | c | c }
+        TRANSACTION\_ID & LAST\_LSN & STATUS\\ \hline
+                      T3&         1 & active \\ \hline
+                      T1&         3 & abort \\ \hline
+                      T1&         8 & active \\
+      \end{tabular}
+    \end{center}
+    Since all transactions are already added to the \emph{TransactionTable}, transaction can only be removed from the table. The only transaction that is terminated in the given log after the checkpoint is T1. Thus, T1 must be removed from the \emph{TransactionTable}, which results in the following:
+    \\
+    \begin{center}
+      \begin{tabular}{ c | c | c }
+        TRANSACTION\_ID & LAST\_LSN & STATUS\\ \hline
+                      T2&         3 & abort \\ \hline
+                      T3&         8 & active \\
+      \end{tabular}
+    \end{center}
+    The analysis also computes the \emph{DirtyPageTable}, where all pages are added to, that are encountered after the last checkpoint and are not in the \emph{DirtyPageTable} yet. Since all page ids are already listed in the \emph{DirtyPageTable}, it does not change and stays as given.
+    \\
+    \begin{center}
+      \begin{tabular}{ c | c }
+        PAGE\_ID& LSN\\ \hline
+              A &   2\\ \hline
+              B &   1\\ \hline
+              C &   3\\
+      \end{tabular}
+    \end{center}
+  \end{subexercise}
 
+  \begin{subexercise}
+      Since all pages, A, B, C, are part of the \emph{DirtyPageTable} and the LSN of them are the first appearance of the transaction modifying, all transactions of T1, T2 and T3 must be redone. So the first redone transaction has LSN $1$, since it is the first transaction, since it is the first transaction making a drity page. Therefore, the page is load from the database storage, and the LSN of the loaded page and the LSN given by the logfile are compared. If the LSN of the page of the data storage is smaller, the page must be written to the disk.
+    \begin{center}
+      \begin{tabular}{ c | c | c | c | c }
+        LSN & LAST\_LSN & TRAN\_ID & TYPE & PAGE\_ID \\ \hline
+        ..  & Write computed value of LSN $1$ & & & \\
+      \end{tabular}
+    \end{center}
+    The same holds for LSN$=2,3,4$ and LSN$=7,8,9$ such that 
+    \begin{center}
+      \begin{tabular}{ c | c | c | c | c }
+        LSN & LAST\_LSN & TRAN\_ID & TYPE & PAGE\_ID \\ \hline
+        ..  & Write computed value of LSN $2$ & & & \\
+        ..  & Write computed value of LSN $3$ & & & \\
+        ..  & Write computed value of LSN $4$ & & & \\
+        ..  & Write computed value of LSN $7$ & & & \\
+        ..  & Write computed value of LSN $8$ & & & \\
+        ..  & Write computed value of LSN $9$ & & & \\
+      \end{tabular}
+    \end{center}
+    are added to the log.
+
+      
+  \end{subexercise}
+
+  \begin{subexercise}
+    In this phase, we run backwards throgh the log an check wheather a transaction is part of the \emph{TransactionTable} that was computed during the analysis phase. If so, the transaction was not committed yet. So the first UNDO has LSN$=7$, since T1 is not part of the \emph{TransactionTable}. Therefore, the Before-Image of A is written into the log. So the entry
+    \\
+    \begin{center}
+      \begin{tabular}{ c | c | c | c | c }
+        LSN & LAST\_LSN & TRAN\_ID & TYPE & PAGE\_ID \\ \hline
+        ..  & write Before-Image of A of LSN $7$ & & & \\
+      \end{tabular}
+    \end{center}
+    is added to the log. The same holds for 
+    \begin{center}
+      \begin{tabular}{ c | c | c | c | c }
+        LSN & LAST\_LSN & TRAN\_ID & TYPE & PAGE\_ID \\ \hline
+        ..  & write Before-Image of A of LSN $2$ & & & \\
+      \end{tabular}
+    \end{center}
+    and 
+    \begin{center}
+      \begin{tabular}{ c | c | c | c | c }
+        LSN & LAST\_LSN & TRAN\_ID & TYPE & PAGE\_ID \\ \hline
+        ..  & write Before-Image of B of LSN $1$ & & & \\
+      \end{tabular}
+    \end{center}
+  \end{subexercise}
 \end{exercise}
