@@ -1,3 +1,19 @@
-\begin{exercise}{0}
+\begin{exercise}{4}
+  \begin{subexercise}
+    As mentioned on the slides, Index Blocking solves the Phantom Problem. In the example of the slides T1 blocks all pages with $sex=male$ in order to get the oldest man. While the pages where blocked transaction T2 added a new mal person to a different page. If transaction T1 would perform the same actions again it, the retrieved data would be different.
+  \end{subexercise}
 
+  \begin{subexercise}
+
+  The \emph{log sequence number} (LSN) is an orientation of the logfile. Each action has a unque LNS. The LSN each new action got a LSN greater then all LSN before. Thus, LSN also have a temporal relation.
+    ARIES contains the phases:
+    \begin{enumerate}
+      \item Analysis:\\
+            In this phase the tables \emph{TransactionTable} and \emph{DirtyPageTable} are computed. The \emph{TransactionTable} is a list of transactions that were not commited when the crash happened. These transactions must be undone. The \emph{DirtyPageTable} contains the dirty pages information about their first modification, which is given in form of an LSN. The pages listed in the \emph{DirtyPageTable} are redone in a later phase of the method.
+      \item Redo: \\
+            In this part of the method the situation of the crash is reconstructed. In order to do so, the transactions are repeated from a certain point and certain pages. The pages are given in the \emph{DirtyPageTable}. Also the point is given in the \emph{DirtyPageTable}, in form of the log sequence number that indicates the first transaction that lead to the dirty page.
+      \item Undo:\\
+            Since the current state of the method has reconstructed the situation of the crash, all uncommited transactions must be reverted. This is done by the Undo phase. It goes from bottom to top through the log and revertes each transaction that is mentioned in the log and also part of the \emph{TransactionTable}.
+    \end{enumerate}
+  \end{subexercise}
 \end{exercise}
